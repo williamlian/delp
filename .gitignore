@@ -4,4 +4,7 @@
 /.idea/libraries
 .DS_Store
 /build
+/app/src/main/res/values/clients.xml
 /captures
+/.idea
+
