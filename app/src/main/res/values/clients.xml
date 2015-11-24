@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="groupon_client_id">DUMMY</string>
+
+    <string name="yelp_consumer_key">DUMMY</string>
+    <string name="yelp_consumer_secret">DUMMY</string>
+    <string name="yelp_token">DUMMY</string>
+    <string name="yelp_token_secret">DUMMY</string>
+</resources>
