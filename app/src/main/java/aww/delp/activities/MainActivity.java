@@ -1,16 +1,33 @@
 package aww.delp.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import aww.delp.Delp;
+import aww.delp.Preferences;
 import aww.delp.R;
+import aww.delp.adaptors.DealCardAdaptor;
+import aww.delp.clients.GrouponResponseHandler;
+import aww.delp.helpers.GrouponRestaurantLoader;
+import aww.delp.models.groupon.Deal;
+import aww.delp.models.groupon.Division;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GrouponRestaurantLoader.Handler {
 
+    /**********************************************************************************************
+     *
+     * Activity Methods
+     *
+     **********************************************************************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,8 +35,15 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Intent i = new Intent(this, TestActivity.class);
-        startActivity(i);
+        mRecyclerView = (RecyclerView)findViewById(R.id.rv_deals);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        deals = new ArrayList<Deal>();
+        mAdapter = new DealCardAdaptor(this, deals);
+        mRecyclerView.setAdapter(mAdapter);
+
+        loadDivision();
     }
 
     @Override
@@ -31,9 +55,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -43,4 +64,50 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    /**********************************************************************************************
+     *
+     * Data Loader
+     *
+     **********************************************************************************************/
+    public void loadDeals() {
+        Preferences preferences = Delp.getPreferences();
+        loader = new GrouponRestaurantLoader(this, deals, preferences.getDivision(), this);
+        loader.loadNew(null);
+    }
+
+    public void loadDivision() {
+        final Preferences preferences = Delp.getPreferences();
+        final Division division = preferences.getDivision();
+        if (division == null) {
+            Delp.getGrouponClient().getDivisions(new GrouponResponseHandler.Divisions() {
+                @Override
+                public void onSuccess(List<Division> divisions) {
+                    Division.refresh(divisions);
+                    preferences.setDivision(divisions.get(0));
+                    Log.i(getClass().getName(), "Setting first time division: " + divisions.get(0).getName());
+                    loadDeals();
+                }
+            });
+        } else {
+            loadDeals();
+        }
+    }
+
+    @Override
+    public void onLoadGrouponRestaurantCompleted(boolean success) {
+        mAdapter.notifyDataSetChanged();
+    }
+
+    /**********************************************************************************************
+     *
+     * Private Members
+     *
+     **********************************************************************************************/
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private List<Deal> deals;
+    private Division division;
+
+    private GrouponRestaurantLoader loader;
 }

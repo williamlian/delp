@@ -16,7 +16,11 @@ public abstract class GrouponResponseHandler {
     }
 
     public static abstract class Deals extends GrouponResponseHandler {
-        public abstract void onSuccess(List<Deal> deals);
+        public abstract void onSuccess(List<aww.delp.models.groupon.Deal> deals);
+    }
+
+    public static abstract class SingleDeal extends GrouponResponseHandler {
+        public abstract void onSuccess(Deal deal);
     }
 
     public static abstract class Divisions extends GrouponResponseHandler {

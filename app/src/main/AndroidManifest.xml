@@ -13,7 +13,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="AA_DB_NAME"
             android:value="Delp.db"/>
@@ -31,6 +30,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+
+        <activity android:name=".activities.DetailsActivity"
+                  android:label="@string/app_name"
+                  android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
         <activity android:name=".activities.TestActivity">
         </activity>
     </application>

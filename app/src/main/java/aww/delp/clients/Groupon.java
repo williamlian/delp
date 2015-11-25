@@ -42,7 +42,8 @@ public class Groupon {
         RequestParams params = new RequestParams();
         params.put("client_id", CLIENT_ID);
         params.put("division_id", division_id);
-        params.put("channel_id", channel);
+        if(channel != null)
+            params.put("channel_id", channel);
         params.put("offset", offset);
         params.put("limit", limit);
         client.get(getUrl("/deals"), params, new JsonHttpResponseHandler() {
@@ -76,10 +77,61 @@ public class Groupon {
         });
     }
 
+    //https://sites.google.com/a/groupon.com/api-internal/api-resources/deals/search
+    public void searchDeals(String division_id,
+                            Integer offset,
+                            Integer limit,
+                            String channel,
+                            String filter,
+                            String query,
+                            final GrouponResponseHandler.Deals handler) {
+        RequestParams params = new RequestParams();
+        params.put("client_id", CLIENT_ID);
+        params.put("division_id", division_id);
+        if(channel != null)
+            params.put("channel_id", channel);
+        if(filter != null)
+            params.put("filters", filter);
+        if(query != null)
+            params.put("query", query);
+        params.put("offset", offset);
+        params.put("limit", limit);
+        client.get(getUrl("/deals"), params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                handler.onSuccess(Deal.fromJson(response.optJSONArray("deals")));
+            }
 
-    /***********************************************************************
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                handler.onFailure(statusCode, errorResponse);
+            }
+        });
+    }
+
+    //https://sites.google.com/a/groupon.com/api-internal/api-resources/deals#show-request
+    public void showDeal(String uuid, final GrouponResponseHandler.SingleDeal handler) {
+        RequestParams params = new RequestParams();
+        params.put("client_id", CLIENT_ID);
+        client.get(getUrl("/deals/" + uuid), params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                handler.onSuccess(Deal.fromJson(response.optJSONObject("deal")));
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                handler.onFailure(statusCode, errorResponse);
+            }
+        });
+    }
+
+
+    /**********************************************************************************************
+     *
      * Private Members
-     **********************************************************************/
+     *
+     **********************************************************************************************/
     protected AsyncHttpClient client = new AsyncHttpClient();
     protected static Groupon instance = null;
 

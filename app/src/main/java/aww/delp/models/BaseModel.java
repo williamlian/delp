@@ -20,7 +20,7 @@ public abstract class BaseModel extends Model {
         try {
             return mapper.readValue(jsonObject.toString(), type);
         } catch (IOException e) {
-            Log.e(type.getName(), "Failed parsing Groupon response: " + jsonObject.toString());
+            Log.e(type.getName(), String.format("Failed parsing Groupon response: [%s] %s", e.getMessage(),jsonObject.toString()));
         }
         return null;
     }

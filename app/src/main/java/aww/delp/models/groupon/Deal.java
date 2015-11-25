@@ -54,6 +54,12 @@ public class Deal extends BaseModel {
     @JsonProperty("sidebarImageUrl")
     String sidebarImageUrl;
 
+    @JsonProperty("redemptionLocation")
+    String redemptionLocation;
+
+    @JsonProperty("options")
+    List<DealOptions> options;
+
 
     public static Deal fromJson(JSONObject deal) {
         return BaseModel.fromJson(deal, Deal.class);
@@ -117,5 +123,13 @@ public class Deal extends BaseModel {
 
     public String getSidebarImageUrl() {
         return sidebarImageUrl;
+    }
+
+    public String getRedemptionLocation() {
+        return redemptionLocation;
+    }
+
+    public List<DealOptions> getOptions() {
+        return options;
     }
 }
