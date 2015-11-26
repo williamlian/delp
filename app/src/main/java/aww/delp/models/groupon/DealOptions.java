@@ -27,6 +27,9 @@ public class DealOptions extends BaseModel {
     @JsonProperty("value")
     Price value;
 
+    @JsonProperty("redemptionLocations")
+    List<Location> redemptionLocations;
+
     public static DealOptions fromJson(JSONObject deal) {
         return BaseModel.fromJson(deal, DealOptions.class);
     }
@@ -53,5 +56,12 @@ public class DealOptions extends BaseModel {
 
     public Price getValue() {
         return value;
+    }
+
+    public Location getFirstLocation() {
+        if(redemptionLocations != null && redemptionLocations.size() > 0)
+            return redemptionLocations.get(0);
+        else
+            return null;
     }
 }

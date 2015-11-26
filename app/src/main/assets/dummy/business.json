@@ -1,0 +1,119 @@
+{
+  "region": {
+    "span": {
+      "latitude_delta": 0.0014052500000047985,
+      "longitude_delta": 0.010489049999989675
+    },
+    "center": {
+      "latitude": 47.62493525,
+      "longitude": -122.31712025
+    }
+  },
+  "total": 2,
+  "businesses": [
+    {
+      "is_claimed": true,
+      "rating": 3.0,
+      "mobile_url": "http://m.yelp.com/biz/the-canterbury-ale-house-seattle-5",
+      "rating_img_url": "http://s3-media3.fl.yelpcdn.com/assets/2/www/img/34bc8086841c/ico/stars/v1/stars_3.png",
+      "review_count": 90,
+      "name": "The Canterbury Ale House",
+      "rating_img_url_small": "http://s3-media3.fl.yelpcdn.com/assets/2/www/img/902abeed0983/ico/stars/v1/stars_small_3.png",
+      "url": "http://www.yelp.com/biz/the-canterbury-ale-house-seattle-5",
+      "categories": [
+        [
+          "Pubs",
+          "pubs"
+        ],
+        [
+          "American (Traditional)",
+          "tradamerican"
+        ]
+      ],
+      "phone": "2063253110",
+      "snippet_text": "I love their lunch menu here! I work nearby and if me and coworkers are going out to eat i always suggest this place. \n\nThey have bomb poutiene!!!!\n\nOnly...",
+      "image_url": "http://s3-media1.fl.yelpcdn.com/bphoto/7rhVmHFlV-ccuEB2YVxrSg/ms.jpg",
+      "snippet_image_url": "http://s3-media2.fl.yelpcdn.com/photo/u4peNj0NjTZfom_i-P8PCw/ms.jpg",
+      "display_phone": "+1-206-325-3110",
+      "rating_img_url_large": "http://s3-media1.fl.yelpcdn.com/assets/2/www/img/e8b5b79d37ed/ico/stars/v1/stars_large_3.png",
+      "id": "the-canterbury-ale-house-seattle-5",
+      "is_closed": false,
+      "location": {
+        "cross_streets": "Republican St & Mercer St",
+        "city": "Seattle",
+        "display_address": [
+          "534 15th Ave E",
+          "Capitol Hill",
+          "Seattle, WA 98112"
+        ],
+        "geo_accuracy": 8.0,
+        "neighborhoods": [
+          "Capitol Hill"
+        ],
+        "postal_code": "98112",
+        "country_code": "US",
+        "address": [
+          "534 15th Ave E"
+        ],
+        "coordinate": {
+          "latitude": 47.6242294,
+          "longitude": -122.3124847
+        },
+        "state_code": "WA"
+      }
+    },
+    {
+      "is_claimed": true,
+      "rating": 4.5,
+      "mobile_url": "http://m.yelp.com/biz/restaurant-marron-seattle",
+      "rating_img_url": "http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png",
+      "review_count": 64,
+      "name": "Restaurant Marron",
+      "rating_img_url_small": "http://s3-media2.fl.yelpcdn.com/assets/2/www/img/a5221e66bc70/ico/stars/v1/stars_small_4_half.png",
+      "url": "http://www.yelp.com/biz/restaurant-marron-seattle",
+      "categories": [
+        [
+          "French",
+          "french"
+        ],
+        [
+          "American (New)",
+          "newamerican"
+        ]
+      ],
+      "menu_date_updated": 1442206426,
+      "phone": "2063220409",
+      "snippet_text": "Restaurant Marron has one of my favorite tasting menu's in Seattle and the restaurant itself is so cute! The six course menu with wine pairing is hearty and...",
+      "image_url": "http://s3-media4.fl.yelpcdn.com/bphoto/e9NtJSGlHb5TnlJ8Q8Qc4w/ms.jpg",
+      "snippet_image_url": "http://s3-media2.fl.yelpcdn.com/photo/NYyv6b2up0E_TIo15gDLHw/ms.jpg",
+      "display_phone": "+1-206-322-0409",
+      "rating_img_url_large": "http://s3-media4.fl.yelpcdn.com/assets/2/www/img/9f83790ff7f6/ico/stars/v1/stars_large_4_half.png",
+      "menu_provider": "single_platform",
+      "id": "restaurant-marron-seattle",
+      "is_closed": false,
+      "location": {
+        "cross_streets": "E Harvard Ave & E Broadway",
+        "city": "Seattle",
+        "display_address": [
+          "806 E Roy St",
+          "Capitol Hill",
+          "Seattle, WA 98102"
+        ],
+        "geo_accuracy": 9.5,
+        "neighborhoods": [
+          "Capitol Hill"
+        ],
+        "postal_code": "98102",
+        "country_code": "US",
+        "address": [
+          "806 E Roy St"
+        ],
+        "coordinate": {
+          "latitude": 47.625574,
+          "longitude": -122.321888
+        },
+        "state_code": "WA"
+      }
+    }
+  ]
+}

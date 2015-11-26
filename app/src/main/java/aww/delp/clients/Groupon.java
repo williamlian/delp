@@ -9,7 +9,10 @@ import com.loopj.android.http.RequestParams;
 import org.apache.http.Header;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import aww.delp.R;
+import aww.delp.helpers.DummyHelper;
 import aww.delp.models.groupon.Deal;
 import aww.delp.models.groupon.Division;
 
@@ -39,6 +42,10 @@ public class Groupon {
             String channel,
             final GrouponResponseHandler.Deals handler)
     {
+        if(isDummy()) {
+            handler.onSuccess(getDummyDeals());
+            return;
+        }
         RequestParams params = new RequestParams();
         params.put("client_id", CLIENT_ID);
         params.put("division_id", division_id);
@@ -61,6 +68,10 @@ public class Groupon {
 
     //https://sites.google.com/site/grouponapiv2/api-resources/divisions
     public void getDivisions(final GrouponResponseHandler.Divisions handler) {
+        if(isDummy()) {
+            handler.onSuccess(getDummyDivisions());
+            return;
+        }
         RequestParams params = new RequestParams();
         params.put("client_id", CLIENT_ID);
         params.put("show", "default");
@@ -85,6 +96,10 @@ public class Groupon {
                             String filter,
                             String query,
                             final GrouponResponseHandler.Deals handler) {
+        if(isDummy()) {
+            handler.onSuccess(getDummyDeals());
+            return;
+        }
         RequestParams params = new RequestParams();
         params.put("client_id", CLIENT_ID);
         params.put("division_id", division_id);
@@ -111,6 +126,10 @@ public class Groupon {
 
     //https://sites.google.com/a/groupon.com/api-internal/api-resources/deals#show-request
     public void showDeal(String uuid, final GrouponResponseHandler.SingleDeal handler) {
+        if(isDummy()) {
+            handler.onSuccess(getDummyDeal(uuid));
+            return;
+        }
         RequestParams params = new RequestParams();
         params.put("client_id", CLIENT_ID);
         client.get(getUrl("/deals/" + uuid), params, new JsonHttpResponseHandler() {
@@ -134,12 +153,31 @@ public class Groupon {
      **********************************************************************************************/
     protected AsyncHttpClient client = new AsyncHttpClient();
     protected static Groupon instance = null;
+    private Context context;
 
     protected Groupon(Context context) {
         CLIENT_ID = context.getString(R.string.groupon_client_id);
+        this.context = context;
     }
-
     protected String getUrl(String relativeUrl) {
         return BASE_URL + relativeUrl;
+    }
+
+    /**********************************************************************************************
+     *
+     * Dummy
+     *
+     **********************************************************************************************/
+    protected boolean isDummy() {
+        return CLIENT_ID.equals("DUMMY");
+    }
+    protected List<Deal> getDummyDeals() {
+        return Deal.fromJson(DummyHelper.getDummyDeals(context).optJSONArray("deals"));
+    }
+    protected Deal getDummyDeal(String uuid) {
+        return Deal.fromJson(DummyHelper.getDummyDeal(context, uuid));
+    }
+    protected List<Division> getDummyDivisions() {
+        return Division.fromJson(DummyHelper.getDummyDivisions(context).optJSONArray("divisions"));
     }
 }

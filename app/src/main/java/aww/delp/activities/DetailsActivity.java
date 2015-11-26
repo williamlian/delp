@@ -12,7 +12,9 @@ import aww.delp.R;
 import aww.delp.clients.Groupon;
 import aww.delp.clients.GrouponResponseHandler;
 import aww.delp.clients.Yelp;
+import aww.delp.helpers.DealYelpMatcher;
 import aww.delp.models.groupon.Deal;
+import aww.delp.models.yelp.Business;
 
 public class DetailsActivity extends AppCompatActivity {
     public static final String ARGS_DEAL_UUID = "uuid";
@@ -56,6 +58,17 @@ public class DetailsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void updateView() {
+
+        //TODO
+        Toast.makeText(this, "deal loaded " + deal.getGrouponId(), Toast.LENGTH_SHORT).show();
+        if(business == null)
+            Toast.makeText(this, "business not found ", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(this, "business loaded " + business.getName(), Toast.LENGTH_SHORT).show();
+
+    }
+
     /**********************************************************************************************
      *
      * Data Loader
@@ -73,7 +86,15 @@ public class DetailsActivity extends AppCompatActivity {
     private void onDealLoaded(Deal deal) {
         this.deal = deal;
 
-        Toast.makeText(this, "loaded " + deal.getGrouponId(), Toast.LENGTH_SHORT).show();
+        DealYelpMatcher matcher = new DealYelpMatcher(this);
+        matcher.matchDeal(deal, new DealYelpMatcher.Handler() {
+            @Override
+            public void onMatchYelpBusinessCompleted(Deal deal, Business business) {
+                DetailsActivity.this.business = business;
+
+                updateView();
+            }
+        });
     }
 
     /**********************************************************************************************
@@ -82,6 +103,7 @@ public class DetailsActivity extends AppCompatActivity {
      *
      **********************************************************************************************/
     private Deal deal;
+    private Business business;
     private Groupon grouponClient;
     private Yelp yelpClient;
 }
