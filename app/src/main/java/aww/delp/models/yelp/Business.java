@@ -39,4 +39,27 @@ public class Business extends BaseModel{
         return BaseModel.fromJson(businesses, Business.class);
     }
 
+    public String getDisplayPhone() {
+        return displayPhone;
+    }
+
+    public String getBusinessId() {
+        return businessId;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public String getUrl() {
+        return url;
+    }
 }

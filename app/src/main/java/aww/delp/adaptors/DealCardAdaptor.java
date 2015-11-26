@@ -15,12 +15,15 @@ import java.util.List;
 
 import aww.delp.R;
 import aww.delp.activities.DetailsActivity;
+import aww.delp.helpers.DealYelpMatcher;
 import aww.delp.models.groupon.Deal;
+import aww.delp.models.yelp.Business;
 
 public class DealCardAdaptor extends RecyclerView.Adapter<DealCardAdaptor.ViewHolder>{
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public Deal deal;
+        public Business business;
         public View view;
 
         public ImageView iv_dealImage;
@@ -29,6 +32,7 @@ public class DealCardAdaptor extends RecyclerView.Adapter<DealCardAdaptor.ViewHo
         public TextView tv_buyCount;
         public TextView tv_originalPrice;
         public TextView tv_price;
+        public TextView tv_rating;
 
         public ViewHolder(View view) {
             super(view);
@@ -39,13 +43,16 @@ public class DealCardAdaptor extends RecyclerView.Adapter<DealCardAdaptor.ViewHo
             tv_buyCount = (TextView)view.findViewById(R.id.tv_buyCount);
             tv_originalPrice = (TextView)view.findViewById(R.id.tv_originalPrice);
             tv_price = (TextView)view.findViewById(R.id.tv_price);
+            tv_rating = (TextView)view.findViewById(R.id.tv_yelpRating);
         }
     }
 
     private List<Deal> deals;
+    private DealYelpMatcher dealYelpMatcher;
 
     public DealCardAdaptor(Context context, List<Deal> deals) {
         this.deals = deals;
+        this.dealYelpMatcher = new DealYelpMatcher(context);
     }
 
     @Override
@@ -71,6 +78,18 @@ public class DealCardAdaptor extends RecyclerView.Adapter<DealCardAdaptor.ViewHo
                 Intent intent = new Intent(context, DetailsActivity.class);
                 intent.putExtra(DetailsActivity.ARGS_DEAL_UUID, holder.deal.getUuid());
                 context.startActivity(intent);
+            }
+        });
+
+        dealYelpMatcher.matchDeal(holder.deal, new DealYelpMatcher.Handler() {
+            @Override
+            public void onMatchYelpBusinessCompleted(Deal deal, Business business) {
+                if(business != null) {
+                    holder.business = business;
+                    holder.tv_rating.setText(business.getRating());
+                } else {
+                    holder.tv_rating.setText("Yelp Rating Not Available");
+                }
             }
         });
     }

@@ -17,11 +17,15 @@ import aww.delp.Preferences;
 import aww.delp.R;
 import aww.delp.adaptors.DealCardAdaptor;
 import aww.delp.clients.GrouponResponseHandler;
+import aww.delp.helpers.DealYelpMatcher;
 import aww.delp.helpers.GrouponRestaurantLoader;
 import aww.delp.models.groupon.Deal;
 import aww.delp.models.groupon.Division;
+import aww.delp.models.yelp.Business;
 
-public class MainActivity extends AppCompatActivity implements GrouponRestaurantLoader.Handler {
+public class MainActivity extends AppCompatActivity
+        implements GrouponRestaurantLoader.Handler
+{
 
     /**********************************************************************************************
      *
@@ -42,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements GrouponRestaurant
         deals = new ArrayList<Deal>();
         mAdapter = new DealCardAdaptor(this, deals);
         mRecyclerView.setAdapter(mAdapter);
+
+        dealYelpMatcher = new DealYelpMatcher(this);
 
         loadDivision();
     }
@@ -108,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements GrouponRestaurant
     private RecyclerView.LayoutManager mLayoutManager;
     private List<Deal> deals;
     private Division division;
+    private DealYelpMatcher dealYelpMatcher;
 
     private GrouponRestaurantLoader loader;
 }
