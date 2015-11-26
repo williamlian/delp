@@ -20,16 +20,21 @@ import org.scribe.exceptions.OAuthException;
 import org.scribe.model.Token;
 import org.scribe.oauth.OAuthService;
 
+import java.util.List;
+
 import aww.delp.R;
+import aww.delp.helpers.DummyHelper;
 import aww.delp.models.yelp.Business;
 
 public class Yelp {
     private static final String SEARCH_PATH = "/v2/search";
     private static final String BUSINESS_PATH = "/v2/business";
 
-    /***********************************************************************
+    /**********************************************************************************************
+     *
      * Configurations
-     **********************************************************************/
+     *
+     *********************************************************************************************/
     public static final Class<? extends Api> REST_API_CLASS = TwoStepOAuth.class;
     private static final String REST_URL = "https://api.yelp.com";
 
@@ -43,14 +48,20 @@ public class Yelp {
         return instance;
     }
 
-    /***********************************************************************
+    /**********************************************************************************************
+     *
      * Endpoints
-     **********************************************************************/
+     *
+     *********************************************************************************************/
     // https://www.yelp.com/developers/documentation/v2/search_api
-    public void searchForBusinessesByLocation(String term, String location, int limit, final YelpResponseHandler.Businesses handler) {
+    public void searchForBusinessesByLocation(String query, String location, int limit, final YelpResponseHandler.Businesses handler) {
+        if(isDummy()) {
+            handler.onSuccess(getDummyBusinesses(query));
+            return;
+        }
         String apiUrl = getApiUrl(SEARCH_PATH);
         RequestParams params = new RequestParams();
-        params.put("term", term);
+        params.put("term", query);
         params.put("location", location);
         params.put("limit", String.valueOf(limit));
         client.get(apiUrl, params, new JsonHttpResponseHandler() {
@@ -66,12 +77,15 @@ public class Yelp {
         });
     }
 
-    /***********************************************************************
+    /**********************************************************************************************
+     *
      * Private Members
-     **********************************************************************/
+     *
+     *********************************************************************************************/
     protected static Yelp instance;
     private Token token;
     private YelpAsyncHttpClient client;
+    private Context context;
 
     protected Yelp(Context context) {
         this.CONSUMER_KEY = context.getString(R.string.yelp_consumer_key);
@@ -79,6 +93,7 @@ public class Yelp {
         this.client = new YelpAsyncHttpClient(REST_API_CLASS, CONSUMER_KEY, CONSUMER_SECRET);
         token = new Token(context.getString(R.string.yelp_token), context.getString(R.string.yelp_token_secret));
         this.client.setAccessToken(token);
+        this.context = context;
     }
 
     protected String getApiUrl(String path) {
@@ -115,6 +130,19 @@ public class Yelp {
                 throw new OAuthException("Cannot send unauthenticated requests for undefined service. Please specify a valid api service!");
             }
         }
+    }
+
+    /**********************************************************************************************
+     *
+     * Dummy
+     *
+     **********************************************************************************************/
+    protected boolean isDummy() {
+        return CONSUMER_KEY.equals("DUMMY");
+    }
+
+    protected List<Business> getDummyBusinesses(String query) {
+        return Business.fromJson(DummyHelper.getDummyBusinesses(context, query).optJSONArray("businesses"));
     }
 
 }

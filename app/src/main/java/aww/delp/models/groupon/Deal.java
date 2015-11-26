@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 import aww.delp.models.BaseModel;
+import aww.delp.models.yelp.Business;
 
 /**
  * Deal Object from GAPI GET /deals
@@ -54,6 +55,16 @@ public class Deal extends BaseModel {
     @JsonProperty("sidebarImageUrl")
     String sidebarImageUrl;
 
+    @JsonProperty("redemptionLocation")
+    String redemptionLocation;
+
+    @JsonProperty("options")
+    List<DealOptions> options;
+
+    @JsonProperty("merchant")
+    Merchant merchant;
+
+    public Business yelpBusiness = null;
 
     public static Deal fromJson(JSONObject deal) {
         return BaseModel.fromJson(deal, Deal.class);
@@ -117,5 +128,24 @@ public class Deal extends BaseModel {
 
     public String getSidebarImageUrl() {
         return sidebarImageUrl;
+    }
+
+    public String getRedemptionLocation() {
+        return redemptionLocation;
+    }
+
+    public List<DealOptions> getOptions() {
+        return options;
+    }
+
+    public Merchant getMerchant() {
+        return merchant;
+    }
+
+    public DealOptions getFirstOption() {
+        if(options != null && options.size() > 0)
+            return options.get(0);
+        else
+            return null;
     }
 }
