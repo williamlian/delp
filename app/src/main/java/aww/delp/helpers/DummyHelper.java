@@ -62,4 +62,8 @@ public class DummyHelper {
         }
         return null;
     }
+
+    public static JSONObject getDummyBusinesses(Context context, String query) {
+        return readJsonFile(context, "dummy/business.json");
+    }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="groupon_client_id">ac5727a0acccd6dbe1ba74c6a8cd398287fc3f9b</string>
+    <string name="groupon_client_id">DUMMY</string>
 
-    <string name="yelp_consumer_key">4RNGCheBPQUxFh0VIwCqTg</string>
-    <string name="yelp_consumer_secret">oQzn4thaip8xIxQu8gqPdOsqQ7E</string>
-    <string name="yelp_token">TdqthvOdDXstm5jjn82NHH07mwz1UATc</string>
-    <string name="yelp_token_secret">I_7dTwIFJqDVRQa2Lp_YapClGdo</string>
+    <string name="yelp_consumer_key">DUMMY</string>
+    <string name="yelp_consumer_secret">DUMMY</string>
+    <string name="yelp_token">DUMMY</string>
+    <string name="yelp_token_secret">DUMMY</string>
 </resources>
