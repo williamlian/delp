@@ -54,3 +54,7 @@
 ## Reference
 - [layout](https://view.ziteboard.com/shared/UqplhH967NIMflh8J6M)
 
+## Basic Functionality Demo
+
+![Demo](demo.gif)
+
