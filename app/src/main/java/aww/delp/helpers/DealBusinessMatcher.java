@@ -1,6 +1,7 @@
 package aww.delp.helpers;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -11,7 +12,7 @@ import aww.delp.clients.YelpResponseHandler;
 import aww.delp.models.groupon.Deal;
 import aww.delp.models.yelp.Business;
 
-public class DealYelpMatcher {
+public class DealBusinessMatcher {
     Context context;
     Yelp client;
 
@@ -19,16 +20,18 @@ public class DealYelpMatcher {
         void onMatchYelpBusinessCompleted(Deal deal, Business business);
     }
 
-    public DealYelpMatcher(Context context) {
+    public DealBusinessMatcher(Context context) {
         this.context = context;
         this.client = Yelp.getInstance(context);
     }
 
     public void matchDeal(final Deal deal, final Handler handler) {
+
         String query = deal.getMerchant().getName();
         String location;
         try {
             location = deal.getFirstOption().getFirstLocation().toString();
+            Log.i(getClass().getName(), String.format("Matching deal %s @ %s", query, location));
         } catch (Exception e) {
             handler.onMatchYelpBusinessCompleted(deal, null);
             return;

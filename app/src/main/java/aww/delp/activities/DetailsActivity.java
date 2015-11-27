@@ -5,14 +5,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import aww.delp.Delp;
 import aww.delp.R;
 import aww.delp.clients.Groupon;
 import aww.delp.clients.GrouponResponseHandler;
 import aww.delp.clients.Yelp;
-import aww.delp.helpers.DealYelpMatcher;
+import aww.delp.helpers.DealBusinessMatcher;
 import aww.delp.models.groupon.Deal;
 import aww.delp.models.yelp.Business;
 
@@ -60,13 +63,15 @@ public class DetailsActivity extends AppCompatActivity {
 
     public void updateView() {
 
-        //TODO
-        Toast.makeText(this, "deal loaded " + deal.getGrouponId(), Toast.LENGTH_SHORT).show();
-        if(business == null)
-            Toast.makeText(this, "business not found ", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(this, "business loaded " + business.getName(), Toast.LENGTH_SHORT).show();
+        ivDetailImage = (ImageView)findViewById(R.id.ivDetailImage);
+        tvDetailDescription = (TextView)findViewById(R.id.tvDetailDescription);
+        tvDetailLocation = (TextView)findViewById(R.id.tvDetailLocation);
+        ivDetailPrice = (ImageView)findViewById(R.id.ivDetailPrice);
+        ivDetailRating = (ImageView)findViewById(R.id.ivDetailRating);
 
+        Picasso.with(this).load(deal.getLargeImageUrl()).into(ivDetailImage);
+        tvDetailDescription.setText(deal.getHighlightsHtml());
+        tvDetailLocation.setText(deal.getFirstOption().getFirstLocation().toString());
     }
 
     /**********************************************************************************************
@@ -86,8 +91,8 @@ public class DetailsActivity extends AppCompatActivity {
     private void onDealLoaded(Deal deal) {
         this.deal = deal;
 
-        DealYelpMatcher matcher = new DealYelpMatcher(this);
-        matcher.matchDeal(deal, new DealYelpMatcher.Handler() {
+        DealBusinessMatcher matcher = new DealBusinessMatcher(this);
+        matcher.matchDeal(deal, new DealBusinessMatcher.Handler() {
             @Override
             public void onMatchYelpBusinessCompleted(Deal deal, Business business) {
                 DetailsActivity.this.business = business;
@@ -106,4 +111,10 @@ public class DetailsActivity extends AppCompatActivity {
     private Business business;
     private Groupon grouponClient;
     private Yelp yelpClient;
+
+    private ImageView ivDetailImage;
+    private TextView tvDetailDescription;
+    private TextView tvDetailLocation;
+    private ImageView ivDetailPrice;
+    private ImageView ivDetailRating;
 }
