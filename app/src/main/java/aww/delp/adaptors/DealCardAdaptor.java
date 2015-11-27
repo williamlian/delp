@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import aww.delp.R;
+import aww.delp.activities.DetailMapActivity;
 import aww.delp.activities.DetailsActivity;
 import aww.delp.helpers.DealBusinessMatcher;
 import aww.delp.models.groupon.Deal;
@@ -75,7 +76,7 @@ public class DealCardAdaptor extends RecyclerView.Adapter<DealCardAdaptor.ViewHo
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
-                Intent intent = new Intent(context, DetailsActivity.class);
+                Intent intent = new Intent(context, DetailMapActivity.class);
                 intent.putExtra(DetailsActivity.ARGS_DEAL_UUID, holder.deal.getUuid());
                 context.startActivity(intent);
             }
