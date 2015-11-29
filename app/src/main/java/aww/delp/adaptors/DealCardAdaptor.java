@@ -77,7 +77,8 @@ public class DealCardAdaptor extends RecyclerView.Adapter<DealCardAdaptor.ViewHo
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent intent = new Intent(context, DetailMapActivity.class);
-                intent.putExtra(DetailsActivity.ARGS_DEAL_UUID, holder.deal.getUuid());
+                intent.putExtra("location", holder.deal.getFirstOption().getFirstLocation());
+//                intent.putExtra(DetailsActivity.ARGS_DEAL_UUID, holder.deal.getUuid());
                 context.startActivity(intent);
             }
         });
