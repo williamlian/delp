@@ -23,6 +23,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import aww.delp.R;
 
@@ -31,6 +32,8 @@ public class DetailMapActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
+
+    private LatLng locationLatLng;
     private SupportMapFragment mapFragment;
     private GoogleMap map;
     private GoogleApiClient mGoogleApiClient;
@@ -48,13 +51,16 @@ public class DetailMapActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_map);
+        final aww.delp.models.groupon.Location location = (aww.delp.models.groupon.Location)getIntent().getParcelableExtra("location");
 
         mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
         if (mapFragment != null) {
             mapFragment.getMapAsync(new OnMapReadyCallback() {
                 @Override
                 public void onMapReady(GoogleMap map) {
-                    loadMap(map);
+                    //Get the location of the deal and pass it to map
+                    locationLatLng =  new LatLng(location.getLat(), location.getLng());
+                    loadMap(map,   new LatLng(location.getLat(), location.getLng()));
                 }
             });
         } else {
@@ -63,18 +69,20 @@ public class DetailMapActivity extends AppCompatActivity implements
 
     }
 
-    protected void loadMap(GoogleMap googleMap) {
+    protected void loadMap(GoogleMap googleMap, LatLng latLng) {
         map = googleMap;
         if (map != null) {
             // Map is ready
             Toast.makeText(this, "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
             map.setMyLocationEnabled(true);
 
+
             // Now that map has loaded, let's get our location!
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addApi(LocationServices.API)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this).build();
+
 
             connectClient();
         } else {
@@ -164,16 +172,17 @@ public class DetailMapActivity extends AppCompatActivity implements
     @Override
     public void onConnected(Bundle dataBundle) {
         // Display the connection status
-        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (location != null) {
-            Toast.makeText(this, "GPS location was found!", Toast.LENGTH_SHORT).show();
-            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
+//        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+//        if (location != null) {
+//            Toast.makeText(this, "GPS location was found!", Toast.LENGTH_SHORT).show();
+//            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(locationLatLng, 15);
             map.animateCamera(cameraUpdate);
             startLocationUpdates();
-        } else {
-            Toast.makeText(this, "Current location was null, enable GPS on emulator!", Toast.LENGTH_SHORT).show();
-        }
+            map.addMarker(new MarkerOptions().position(locationLatLng));
+//        } else {
+//            Toast.makeText(this, "Current location was null, enable GPS on emulator!", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     protected void startLocationUpdates() {

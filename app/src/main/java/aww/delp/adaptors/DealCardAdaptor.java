@@ -15,7 +15,6 @@ import java.util.List;
 
 import aww.delp.R;
 import aww.delp.activities.DetailMapActivity;
-import aww.delp.activities.DetailsActivity;
 import aww.delp.helpers.DealYelpMatcher;
 import aww.delp.models.groupon.Deal;
 import aww.delp.models.yelp.Business;
@@ -77,7 +76,8 @@ public class DealCardAdaptor extends RecyclerView.Adapter<DealCardAdaptor.ViewHo
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent intent = new Intent(context, DetailMapActivity.class);
-                intent.putExtra(DetailsActivity.ARGS_DEAL_UUID, holder.deal.getUuid());
+                intent.putExtra("location", holder.deal.getFirstOption().getFirstLocation());
+//                intent.putExtra(DetailsActivity.ARGS_DEAL_UUID, holder.deal.getUuid());
                 context.startActivity(intent);
             }
         });
