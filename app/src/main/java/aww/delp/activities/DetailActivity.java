@@ -9,7 +9,7 @@ import android.view.View;
 
 import aww.delp.R;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
