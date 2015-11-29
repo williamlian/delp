@@ -15,7 +15,6 @@ import java.util.List;
 
 import aww.delp.R;
 import aww.delp.activities.DetailMapActivity;
-import aww.delp.activities.DetailsActivity;
 import aww.delp.helpers.DealBusinessMatcher;
 import aww.delp.models.groupon.Deal;
 import aww.delp.models.yelp.Business;
