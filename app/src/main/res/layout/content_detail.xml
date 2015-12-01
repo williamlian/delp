@@ -95,19 +95,20 @@
         android:layout_alignLeft="@+id/tvDetailPrice"
         android:layout_alignStart="@+id/tvDetailPrice"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/ivDetailRating"
         android:layout_alignBottom="@+id/ivDetailRating" />
 
-    <ImageView
+    <fragment
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ivDetailMap"
+        android:layout_height="300dp"
+        android:id="@+id/map"
         android:layout_below="@+id/ivDetailRating"
+        class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:src="@mipmap/ic_maplocation"/>
+      />
+
 </RelativeLayout>
