@@ -27,8 +27,8 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!-- Put detail layout here -->
 
+        <include layout="@layout/content_detail" />
 
     </android.support.v4.widget.NestedScrollView>
 

@@ -10,17 +10,19 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="aww.delp.activities.DetailActivity"
-    tools:showIn="@layout/activity_detail">
+    tools:showIn="@layout/activity_details">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="150dp"
+    <aww.delp.widgets.ResizableImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/ivDetailImage"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:scaleType="fitStart"
+        android:adjustViewBounds="true"
         android:src="@mipmap/ic_deal"/>
 
     <TextView
