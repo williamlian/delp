@@ -290,7 +290,7 @@ public class DetailsActivity extends AppCompatActivity implements
 //            Toast.makeText(this, "GPS location was found!", Toast.LENGTH_SHORT).show();
 //            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(locationLatLng, 12);
-        map.animateCamera(cameraUpdate);
+        map.moveCamera(cameraUpdate);
         startLocationUpdates();
         // Set the color of the marker to green
         BitmapDescriptor defaultMarker =
