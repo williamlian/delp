@@ -9,13 +9,8 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.animation.BounceInterpolator;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -34,22 +29,13 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.squareup.picasso.Picasso;
 
-import aww.delp.Delp;
 import aww.delp.R;
-import aww.delp.clients.Groupon;
-import aww.delp.clients.GrouponResponseHandler;
-import aww.delp.clients.Yelp;
-import aww.delp.helpers.DealBusinessMatcher;
-import aww.delp.models.groupon.Deal;
-import aww.delp.models.yelp.Business;
 
-public class DetailsActivity extends AppCompatActivity implements
+public class DetailMapActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
-    public static final String ARGS_DEAL_UUID = "uuid";
 
 
     private LatLng locationLatLng;
@@ -66,25 +52,10 @@ public class DetailsActivity extends AppCompatActivity implements
      */
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
-
-    /**********************************************************************************************
-     *
-     * Activity Methods
-     *
-     **********************************************************************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_details);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        String dealUuid = getIntent().getExtras().getString(ARGS_DEAL_UUID);
-        grouponClient = Delp.getGrouponClient();
-        yelpClient = Delp.getYelpClient();
-
-        loadDeal(dealUuid);
+        setContentView(R.layout.activity_detail_map);
         final aww.delp.models.groupon.Location location = (aww.delp.models.groupon.Location)getIntent().getParcelableExtra("location");
 
         mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
@@ -101,6 +72,7 @@ public class DetailsActivity extends AppCompatActivity implements
         } else {
             Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     protected void loadMap(GoogleMap googleMap, LatLng latLng) {
@@ -123,85 +95,6 @@ public class DetailsActivity extends AppCompatActivity implements
             Toast.makeText(this, "Error - Map was null!!", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void updateView() {
-
-        ivDetailImage = (ImageView)findViewById(R.id.ivDetailImage);
-        tvDetailDescription = (TextView)findViewById(R.id.tvDetailDescription);
-        tvDetailLocation = (TextView)findViewById(R.id.tvDetailLocation);
-        ivDetailPrice = (ImageView)findViewById(R.id.ivDetailPrice);
-        ivDetailRating = (ImageView)findViewById(R.id.ivDetailRating);
-
-        Picasso.with(this).load(deal.getLargeImageUrl()).into(ivDetailImage);
-        tvDetailDescription.setText(deal.getHighlightsHtml());
-        tvDetailLocation.setText(deal.getFirstOption().getFirstLocation().toString());
-    }
-
-    /**********************************************************************************************
-     *
-     * Data Loader
-     *
-     **********************************************************************************************/
-    public void loadDeal(String uuid) {
-        grouponClient.showDeal(uuid, new GrouponResponseHandler.SingleDeal() {
-            @Override
-            public void onSuccess(Deal deal) {
-                onDealLoaded(deal);
-            }
-        });
-    }
-
-    private void onDealLoaded(Deal deal) {
-        this.deal = deal;
-
-        DealBusinessMatcher matcher = new DealBusinessMatcher(this);
-        matcher.matchDeal(deal, new DealBusinessMatcher.Handler() {
-            @Override
-            public void onMatchYelpBusinessCompleted(Deal deal, Business business) {
-                DetailsActivity.this.business = business;
-
-                updateView();
-            }
-        });
-    }
-
-    /**********************************************************************************************
-     *
-     * Private Members
-     *
-     **********************************************************************************************/
-    private Deal deal;
-    private Business business;
-    private Groupon grouponClient;
-    private Yelp yelpClient;
-
-    private ImageView ivDetailImage;
-    private TextView tvDetailDescription;
-    private TextView tvDetailLocation;
-    private ImageView ivDetailPrice;
-    private ImageView ivDetailRating;
 
     protected void connectClient() {
         // Connect the client.
@@ -289,9 +182,9 @@ public class DetailsActivity extends AppCompatActivity implements
 //        if (location != null) {
 //            Toast.makeText(this, "GPS location was found!", Toast.LENGTH_SHORT).show();
 //            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(locationLatLng, 12);
-        map.moveCamera(cameraUpdate);
-        startLocationUpdates();
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(locationLatLng, 15);
+            map.animateCamera(cameraUpdate);
+            startLocationUpdates();
         // Set the color of the marker to green
         BitmapDescriptor defaultMarker =
                 BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);

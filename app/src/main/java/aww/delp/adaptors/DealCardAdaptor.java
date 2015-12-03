@@ -19,6 +19,7 @@ import aww.delp.helpers.DealBusinessMatcher;
 import aww.delp.models.groupon.Deal;
 import aww.delp.models.yelp.Business;
 
+
 public class DealCardAdaptor extends RecyclerView.Adapter<DealCardAdaptor.ViewHolder>{
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -76,6 +77,7 @@ public class DealCardAdaptor extends RecyclerView.Adapter<DealCardAdaptor.ViewHo
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent intent = new Intent(context, DetailsActivity.class);
+                intent.putExtra("location", holder.deal.getFirstOption().getFirstLocation());
                 intent.putExtra(DetailsActivity.ARGS_DEAL_UUID, holder.deal.getUuid());
                 context.startActivity(intent);
             }
