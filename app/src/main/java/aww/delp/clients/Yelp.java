@@ -77,6 +77,26 @@ public class Yelp {
         });
     }
 
+    //https://www.yelp.com/developers/documentation/v2/business
+    public void getBusiness(String businessId, final YelpResponseHandler.SingleBusiness handler) {
+        if(isDummy()) {
+            handler.onSuccess(getDummyBusinessesById(businessId));
+            return;
+        }
+        String apiUrl = getApiUrl(BUSINESS_PATH + "/" + businessId);
+        client.get(apiUrl, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                handler.onSuccess(Business.fromJson(response));
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                handler.onFailure(statusCode, errorResponse);
+            }
+        });
+    }
+
     /**********************************************************************************************
      *
      * Private Members
@@ -145,4 +165,7 @@ public class Yelp {
         return Business.fromJson(DummyHelper.getDummyBusinesses(context, query).optJSONArray("businesses"));
     }
 
+    protected Business getDummyBusinessesById(String query) {
+        return Business.fromJson(DummyHelper.getDummyBusinesses(context, query).optJSONArray("businesses").optJSONObject(0));
+    }
 }

@@ -9,6 +9,7 @@ import java.util.List;
 
 import aww.delp.clients.Yelp;
 import aww.delp.clients.YelpResponseHandler;
+import aww.delp.models.DealBusinessMatch;
 import aww.delp.models.groupon.Deal;
 import aww.delp.models.yelp.Business;
 
@@ -26,7 +27,21 @@ public class DealBusinessMatcher {
     }
 
     public void matchDeal(final Deal deal, final Handler handler) {
-
+        String businessId = DealBusinessMatch.getBusinessId(deal.getUuid());
+        if(businessId != null) {
+            client.getBusiness(businessId, new YelpResponseHandler.SingleBusiness() {
+                @Override
+                public void onSuccess(Business business) {
+                    handler.onMatchYelpBusinessCompleted(deal, business);
+                }
+                @Override
+                public void onFailure(int statusCode, JSONObject error) {
+                    super.onFailure(statusCode, error);
+                    handler.onMatchYelpBusinessCompleted(deal, null);
+                }
+            });
+            return;
+        }
         String query = deal.getMerchant().getName();
         String location;
         try {
@@ -40,10 +55,14 @@ public class DealBusinessMatcher {
         client.searchForBusinessesByLocation(query, location, 1, new YelpResponseHandler.Businesses() {
             @Override
             public void onSuccess(List<Business> businesses) {
-                if(businesses.size() > 0)
-                    handler.onMatchYelpBusinessCompleted(deal, businesses.get(0));
-                else
+                if(businesses.size() > 0) {
+                    Business business = businesses.get(0);
+                    DealBusinessMatch.setBusinessId(deal.getUuid(), business.getBusinessId());
+                    handler.onMatchYelpBusinessCompleted(deal, business);
+                }
+                else {
                     handler.onMatchYelpBusinessCompleted(deal, null);
+                }
             }
 
             @Override

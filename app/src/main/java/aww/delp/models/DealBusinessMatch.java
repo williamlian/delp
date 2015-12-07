@@ -1,5 +1,7 @@
 package aww.delp.models;
 
+import android.util.Log;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -32,11 +34,13 @@ public class DealBusinessMatch extends Model {
             match.businessId = businessId;
         }
         match.save();
+        Log.i(DealBusinessMatch.class.getName(),String.format("Persisting Deal-Biz Match: [%s] - [%s]", dealUuid, businessId));
     }
 
     public static DealBusinessMatch getByDealUuid(String dealUuid) {
         List<DealBusinessMatch> matches = new Select().from(DealBusinessMatch.class).where("deal_uuid = ?", dealUuid).execute();
         if(matches.size() > 0) {
+            Log.i(DealBusinessMatch.class.getName(),String.format("Loaded Deal-Biz Match: [%s] - [%s]",dealUuid, matches.get(0).businessId));
             return matches.get(0);
         }
         return null;
