@@ -11,7 +11,7 @@ import aww.delp.models.yelp.Business;
 public abstract class YelpResponseHandler {
 
     public void onFailure(int statusCode, JSONObject error) {
-        Log.e(this.getClass().getName(), "Error calling Yelp API: " + error.toString());
+        Log.e(this.getClass().getName(), "Error calling Yelp API: " + statusCode);
     }
 
     public static abstract class Businesses extends YelpResponseHandler {

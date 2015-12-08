@@ -1,6 +1,7 @@
 package aww.delp.helpers;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -50,14 +51,17 @@ public class GrouponRestaurantLoader {
 
     public void loadNew(String query) {
         this.query = query;
+        this.offset = 0;
         client.searchDeals(division.getUuid(), offset, LOAD_SIZE, CHANNEL, DEAL_FILTER, query, new GrouponResponseHandler.Deals() {
             @Override
             public void onSuccess(List<Deal> deals) {
+                //for(Deal d:deals){Log.i(getClass().getName(),d.getGrouponId());}
                 store.clear();
                 offset = deals.size();
                 lastError = null;
                 store.addAll(deals);
                 noMoreData = false;
+                Log.i(this.getClass().getName(), String.format("%d deals loaded", offset));
                 handler.onLoadGrouponRestaurantCompleted(true);
             }
 

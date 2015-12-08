@@ -56,7 +56,7 @@ public class Business extends BaseModel{
     }
 
     public String getRating() {
-        return rating;
+        return "Yelp " + rating + " Stars";
     }
 
     public String getUrl() {

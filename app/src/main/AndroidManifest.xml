@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="aww.delp" >
+    package="aww.delp">
 
     <permission
         android:name="aww.delp.permission.MAPS_RECEIVE"
@@ -20,32 +20,13 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="AA_DB_NAME"
             android:value="Delp.db" />
         <meta-data
             android:name="AA_DB_VERSION"
             android:value="1" />
-
-        <activity
-            android:name=".activities.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".activities.DetailsActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-        <activity android:name=".activities.TestActivity" >
-        </activity>
-
         <uses-library
             android:name="com.google.android.maps"
             android:required="true" />
@@ -58,9 +39,30 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".activities.DetailMapActivity"
-            android:label="@string/title_activity_detail_map" >
+            android:name=".activities.DivisionActivity"
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".activities.DetailsActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".activities.DetailMapActivity"
+            android:label="@string/title_activity_detail_map"></activity>
+
     </application>
 
 </manifest>

@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity
 
         dealBusinessMatcher = new DealBusinessMatcher(this);
 
-        loadDivision();
+        loadDeals();
     }
 
     @Override
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onQueryTextSubmit(String query) {
                 search(query);
-                return true;
+                return false;
             }
 
             @Override
@@ -92,36 +92,31 @@ public class MainActivity extends AppCompatActivity
      *
      **********************************************************************************************/
     public void search(String query) {
-        loader.loadNew(query);
+        if(!loading) {
+            loading = true;
+            Log.i(this.getClass().getName(), "Searching GAPI " + query);
+            loader.loadNew(query);
+        }
     }
 
     public void loadDeals() {
-        Preferences preferences = Delp.getPreferences();
-        loader = new GrouponRestaurantLoader(this, deals, preferences.getDivision(), this);
-        loader.loadNew(null);
-    }
-
-    public void loadDivision() {
-        final Preferences preferences = Delp.getPreferences();
-        final Division division = preferences.getDivision();
-        if (division == null) {
-            Delp.getGrouponClient().getDivisions(new GrouponResponseHandler.Divisions() {
-                @Override
-                public void onSuccess(List<Division> divisions) {
-                    Division.refresh(divisions);
-                    preferences.setDivision(divisions.get(0));
-                    Log.i(getClass().getName(), "Setting first time division: " + divisions.get(0).getName());
-                    loadDeals();
-                }
-            });
-        } else {
-            loadDeals();
+        if(!loading) {
+            loading = true;
+            Preferences preferences = Delp.getPreferences();
+            loader = new GrouponRestaurantLoader(this, deals, preferences.getDivision(), this);
+            loader.loadNew(null);
         }
     }
 
     @Override
     public void onLoadGrouponRestaurantCompleted(boolean success) {
-        mAdapter.notifyDataSetChanged();
+        loading = false;
+        if(success) {
+            mAdapter.notifyDataSetChanged();
+            Log.i(this.getClass().getName(), "Adaptor reloaded " + mAdapter.getItemCount());
+        } else {
+            Log.e(this.getClass().getName(), loader.getLastError());
+        }
     }
 
     /**********************************************************************************************
@@ -135,6 +130,8 @@ public class MainActivity extends AppCompatActivity
     private List<Deal> deals;
     private Division division;
     private DealBusinessMatcher dealBusinessMatcher;
+
+    private boolean loading;
 
     private GrouponRestaurantLoader loader;
 }

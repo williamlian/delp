@@ -1,6 +1,7 @@
 package aww.delp.clients;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -9,6 +10,7 @@ import com.loopj.android.http.RequestParams;
 import org.apache.http.Header;
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
 import java.util.List;
 
 import aww.delp.R;
@@ -67,7 +69,7 @@ public class Groupon {
     }
 
     //https://sites.google.com/site/grouponapiv2/api-resources/divisions
-    public void getDivisions(final GrouponResponseHandler.Divisions handler) {
+    public void getDivisions(Double lat, Double lng, final GrouponResponseHandler.Divisions handler) {
         if(isDummy()) {
             handler.onSuccess(getDummyDivisions());
             return;
@@ -75,6 +77,11 @@ public class Groupon {
         RequestParams params = new RequestParams();
         params.put("client_id", CLIENT_ID);
         params.put("show", "default");
+        if(lat != null && lng != null) {
+            params.put("sort", "distance");
+            params.put("lat", lat);
+            params.put("lng", lng);
+        }
         client.get(getUrl("/divisions"), params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -108,10 +115,11 @@ public class Groupon {
         if(filter != null)
             params.put("filters", filter);
         if(query != null)
-            params.put("query", query);
+            params.put("query", URLEncoder.encode(query));
         params.put("offset", offset);
         params.put("limit", limit);
-        client.get(getUrl("/deals"), params, new JsonHttpResponseHandler() {
+        Log.i(getClass().getName(), params.toString());
+        client.get(getUrl("/deals/search"), params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 handler.onSuccess(Deal.fromJson(response.optJSONArray("deals")));
