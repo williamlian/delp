@@ -99,7 +99,7 @@ public class Deal extends BaseModel {
     }
 
     public String getSoldQuantityMessage() {
-        return soldQuantityMessage;
+        return soldQuantityMessage + " Bought";
     }
 
     public String getPlaceholderUrl() {

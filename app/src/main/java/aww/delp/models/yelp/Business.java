@@ -1,5 +1,8 @@
 package aww.delp.models.yelp;
 
+import android.text.Html;
+import android.text.Spanned;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -59,8 +62,8 @@ public class Business extends BaseModel{
         return name;
     }
 
-    public String getRating() {
-        return "Yelp " + rating + " Stars";
+    public Spanned getRating() {
+        return Html.fromHtml("Yelp <font color='red'>" + rating + "</font> Stars");
     }
 
     public String getUrl() {

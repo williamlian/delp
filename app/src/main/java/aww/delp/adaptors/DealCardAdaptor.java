@@ -3,6 +3,7 @@ package aww.delp.adaptors;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +69,10 @@ public class DealCardAdaptor extends RecyclerView.Adapter<DealCardAdaptor.ViewHo
         holder.tv_title.setText(holder.deal.getTitle());
         holder.tv_location.setText(holder.deal.getRedemptionLocation());
         holder.tv_buyCount.setText(holder.deal.getSoldQuantityMessage());
-        holder.tv_originalPrice.setText(holder.deal.getOptions().get(0).getValue().toString());
+
+        String originalPrice = holder.deal.getOptions().get(0).getValue().toString();
+        holder.tv_originalPrice.setText(Html.fromHtml("<strike>" + originalPrice + "</strike>"));
+
         holder.tv_price.setText(holder.deal.getOptions().get(0).getPrice().toString());
         Picasso.with(holder.view.getContext()).load(holder.deal.getLargeImageUrl()).into(holder.iv_dealImage);
 

@@ -40,10 +40,10 @@ public class Location implements Parcelable {
     String uuid;
 
     @JsonProperty("lat")
-    Long lat;
+    Double lat;
 
     @JsonProperty("lng")
-    Long lng;
+    Double lng;
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -90,8 +90,8 @@ public class Location implements Parcelable {
         this.country = in.readString();
         this.phoneNumber = in.readString();
         this.uuid = in.readString();
-        this.lat = (Long) in.readValue(Long.class.getClassLoader());
-        this.lng = (Long) in.readValue(Long.class.getClassLoader());
+        this.lat = (Double) in.readValue(Long.class.getClassLoader());
+        this.lng = (Double) in.readValue(Long.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<Location> CREATOR = new Parcelable.Creator<Location>() {
@@ -104,11 +104,11 @@ public class Location implements Parcelable {
         }
     };
 
-    public Long getLat() {
+    public Double getLat() {
         return lat;
     }
 
-    public Long getLng() {
+    public Double getLng() {
         return lng;
     }
 }

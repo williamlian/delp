@@ -96,6 +96,7 @@ public class DetailsActivity extends AppCompatActivity implements
                 @Override
                 public void onMapReady(GoogleMap map) {
                     //Get the location of the deal and pass it to map
+                    Log.i(getClass().getName(),String.format("Location: lat=%s, lng=%s",location.getLat(), location.getLng()));
                     locationLatLng =  new LatLng(location.getLat(), location.getLng());
                     loadMap(map,   new LatLng(location.getLat(), location.getLng()));
                 }
