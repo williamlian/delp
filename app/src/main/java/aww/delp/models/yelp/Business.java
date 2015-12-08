@@ -31,6 +31,10 @@ public class Business extends BaseModel{
     @JsonProperty("url")
     String url;
 
+    @JsonProperty("rating_img_url_small")
+    String ratingImageUrl;
+
+
     public static Business fromJson(JSONObject business) {
         return BaseModel.fromJson(business, Business.class);
     }
@@ -62,4 +66,6 @@ public class Business extends BaseModel{
     public String getUrl() {
         return url;
     }
+
+    public String getRatingImageUrl() {return ratingImageUrl; }
 }

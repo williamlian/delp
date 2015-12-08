@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,6 +36,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import aww.delp.Delp;
 import aww.delp.R;
@@ -150,12 +153,15 @@ public class DetailsActivity extends AppCompatActivity implements
         ivDetailImage = (ImageView)findViewById(R.id.ivDetailImage);
         tvDetailDescription = (TextView)findViewById(R.id.tvDetailDescription);
         tvDetailLocation = (TextView)findViewById(R.id.tvDetailLocation);
-        ivDetailPrice = (ImageView)findViewById(R.id.ivDetailPrice);
-        ivDetailRating = (ImageView)findViewById(R.id.ivDetailRating);
+        tvDetailPrice = (TextView)findViewById(R.id.tvDetailPrice);
+        ivRealRating = (ImageView)findViewById(R.id.ivRealRating);
 
         Picasso.with(this).load(deal.getLargeImageUrl()).into(ivDetailImage);
         tvDetailDescription.setText(deal.getHighlightsHtml());
         tvDetailLocation.setText(deal.getFirstOption().getFirstLocation().toString());
+        tvDetailPrice.setText(deal.getFirstOption().getPrice().toString());
+        Picasso.with(this).load(business.getRatingImageUrl()).into(ivRealRating);
+
     }
 
     /**********************************************************************************************
@@ -199,8 +205,9 @@ public class DetailsActivity extends AppCompatActivity implements
     private ImageView ivDetailImage;
     private TextView tvDetailDescription;
     private TextView tvDetailLocation;
+    private TextView tvDetailPrice;
     private ImageView ivDetailPrice;
-    private ImageView ivDetailRating;
+    private ImageView ivRealRating;
 
     protected void connectClient() {
         // Connect the client.
