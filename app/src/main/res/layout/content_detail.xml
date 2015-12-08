@@ -86,17 +86,16 @@
         android:layout_alignParentStart="true"
         android:src="@mipmap/ic_rating" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Rating"
-        android:id="@+id/tvDetailRating"
-        android:layout_below="@+id/tvDetailPrice"
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="25dp"
+        android:id="@+id/ivRealRating"
+        android:layout_above="@+id/map"
         android:layout_alignLeft="@+id/tvDetailPrice"
         android:layout_alignStart="@+id/tvDetailPrice"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/ivDetailRating"
-        android:layout_alignBottom="@+id/ivDetailRating" />
+        android:layout_alignTop="@+id/ivDetailRating" />
+
 
     <fragment
         android:layout_width="wrap_content"
@@ -110,5 +109,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
       />
+
+
 
 </RelativeLayout>
